@@ -8,6 +8,21 @@ import Streams._
 
 class StreamTests extends FlatSpec with Matchers {
 
+  "A stream of a single element" should "only contain one element" in {
+    singleElement(1).toList shouldEqual List(1)
+  }
+
+  "A stream of repeated values" should "contain as many values as taken out" in {
+    repeated(1).take(10).toList shouldEqual List.fill(10)(1)
+  }
+
+  it should "only contain one value" in {
+    val xs = repeated(1).take(12).toList
+    assert(
+      xs.forall(_ == 1),
+      s"- expected only values of 1, but got list of: $xs")
+  }
+
   "An even stream" should "contain only even numbers" in {
     even {
       Stream.emits(List.range(1, 11))
@@ -58,7 +73,7 @@ class StreamTests extends FlatSpec with Matchers {
   }
 
   "An unfolded Stream of incrementation" should "have the correct values" in {
-    val s1 = unfold(0, _ + 1).take(3).toList
+    val s1 = unfold(0)(_ + 1).take(3).toList
     s1 shouldEqual List(1, 2, 3)
   }
 
@@ -78,6 +93,28 @@ class StreamTests extends FlatSpec with Matchers {
       Stream(List.range(1, 4), List.range(4, 9))
     }
       .toList shouldEqual List.range(1, 9)
+  }
+
+  "A concatenated stream" should "be correctly ordered" in {
+    val s1 = Stream(1, 2)
+    val s2 = Stream(3, 4)
+
+    concatenate(s1, s2).toList shouldEqual List(1, 2, 3, 4)
+  }
+
+  "intersperse" should "have every other element as supplied" in {
+    val s1 = Stream(1, 2, 3)
+    intersperse(s1, 0).toList shouldEqual List(1, 0, 2, 0, 3)
+  }
+
+  it should "work for streams with one element" in {
+    val s1 = Stream(1)
+    intersperse(s1, 0).toList shouldEqual List(1)
+  }
+
+  it should "work for streams with two elements" in {
+    val s1 = Stream(1, 2)
+    intersperse(s1, 0).toList shouldEqual List(1, 0, 2)
   }
 
 }
