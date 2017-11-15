@@ -5,16 +5,40 @@ import fs2.Pure
 
 object Streams {
 
-  /** Building streams */
+  // Building streams
+  // ================
+  // This first section focuses on using functions available in the `Stream`
+  // object and type, as such, use the obvious defined methods if applicable!
+
+  /** Creates a stream which emits a single element */
   def singleElement[A](a: A): Stream[Pure, A] =
     ???
 
-  /** Creates a stream which repeats the element `a` */
-  def repeated[A](a: A): Stream[Pure, A] =
+  /** Creates a stream which emits all elements in `xs` */
+  def multipleElements[A](xs: A*): Stream[Pure, A] =
+    ???
+
+  /** Creates a stream which emits all elements in `xs` */
+  def streamFromList[A](xs: List[A]): Stream[Pure, A] =
+    ???
+
+  /** Creates a stream which emits all elements in `xxs` in order */
+  def streamFromLists[A](xxs: List[A]*): Stream[Pure, A] =
     ???
 
   /** Combines two streams so that all the elements from `s1` preceed `s2` */
-  def concatenate[A](s1: Stream[Pure, A], s2: Stream[Pure, A]): Stream[Pure, A] =
+  def concatenate[A](s1: => Stream[Pure, A], s2: => Stream[Pure, A]): Stream[Pure, A] =
+    ???
+
+  // Manipulating streams
+  // ====================
+  // In this section we focus on manipulating streams. Here, we don't want you
+  // to use the built in functions with the same name if they already exist -
+  // but instead either rely on the methods defined above or the combinator
+  // methods on the `Stream` type
+
+  /** Creates a stream which repeats the element `a` */
+  def repeated[A](a: A): Stream[Pure, A] =
     ???
 
   /** Returns a list with only even elements */
@@ -22,7 +46,7 @@ object Streams {
     ???
 
   /** Returns a sum of all elements in the stream */
-  def sum[A: Numeric](s: Stream[Nothing, A]): Stream[Pure, A] =
+  def sum[A: Numeric](s: Stream[Pure, A]): Stream[Pure, A] =
     ???
 
   /** Combines two streams so that every other element (in the synchronous
@@ -37,7 +61,7 @@ object Streams {
     * }}}
     *
     */
-  def combine[A](s1: Stream[Pure, A], s2: Stream[Pure, A]): Stream[Pure, A] =
+  def interleave[A](s1: Stream[Pure, A], s2: Stream[Pure, A]): Stream[Pure, A] =
     ???
 
   /** Calculate the sum of two streams of integers */

@@ -12,6 +12,25 @@ class StreamTests extends FlatSpec with Matchers {
     singleElement(1).toList shouldEqual List(1)
   }
 
+  "A stream of multiple elements" should "contain the specified elements" in {
+    multipleElements(1, 2, 3).toList shouldEqual List(1, 2, 3)
+  }
+
+  "A stream from list" should "contain the correct elements" in {
+    streamFromList(List(1, 2)).toList shouldEqual List(1, 2)
+  }
+
+  "A stream from lists" should "contain the correct elements in the correct order" in {
+    streamFromLists(List(1, 2), List(3, 4), List(5, 6, 7)).toList shouldEqual List.range(1, 8)
+  }
+
+  "A concatenated stream" should "be correctly ordered" in {
+    val s1 = Stream(1, 2)
+    val s2 = Stream(3, 4)
+
+    concatenate(s1, s2).toList shouldEqual List(1, 2, 3, 4)
+  }
+
   "A stream of repeated values" should "contain as many values as taken out" in {
     repeated(1).take(10).toList shouldEqual List.fill(10)(1)
   }
@@ -44,18 +63,18 @@ class StreamTests extends FlatSpec with Matchers {
       .toList shouldEqual List(List.range(1, 11).foldLeft(0)(_ + _))
   }
 
-  "A combination of two streams" should "have the correct length" in {
+  "Two interleaved streams" should "have the correct length" in {
     val s1 = Stream(1, 3, 5)
     val s2 = Stream(2, 4, 6)
 
-    combine(s1, s2).toList.length shouldEqual List.range(1, 7).length
+    interleave(s1, s2).toList.length shouldEqual List.range(1, 7).length
   }
 
   it should "contain the correct elements" in {
     val s1 = Stream(1, 3, 5)
     val s2 = Stream(2, 4, 6)
 
-    combine(s1, s2).toList shouldEqual List.range(1, 7)
+    interleave(s1, s2).toList shouldEqual List.range(1, 7)
   }
 
   "A sum of two streams" should "have the correct length" in {
@@ -93,13 +112,6 @@ class StreamTests extends FlatSpec with Matchers {
       Stream(List.range(1, 4), List.range(4, 9))
     }
       .toList shouldEqual List.range(1, 9)
-  }
-
-  "A concatenated stream" should "be correctly ordered" in {
-    val s1 = Stream(1, 2)
-    val s2 = Stream(3, 4)
-
-    concatenate(s1, s2).toList shouldEqual List(1, 2, 3, 4)
   }
 
   "intersperse" should "have every other element as supplied" in {
