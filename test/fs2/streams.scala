@@ -93,7 +93,7 @@ class StreamTests extends FlatSpec with Matchers {
 
   "An unfolded Stream of incrementation" should "have the correct values" in {
     val s1 = unfold(0)(_ + 1).take(3).toList
-    s1 shouldEqual List(1, 2, 3)
+    s1 shouldEqual List(0, 1, 2, 3)
   }
 
   "A flattened stream" should "be able to handle an empty list" in {
