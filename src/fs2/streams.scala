@@ -54,8 +54,8 @@ object Streams {
     *
     * Ergo if the streams were lists, this would be the expected behaviour:
     * {{{
-    * val xs1 = List(1, 2)
-    * val xs2 = List(3, 4)
+    * val xs1 = List(1, 3)
+    * val xs2 = List(2, 4)
     *
     * combine(xs1, xs2) == List(1, 2, 3 ,4)
     * }}}
