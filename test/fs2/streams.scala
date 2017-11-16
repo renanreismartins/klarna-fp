@@ -92,7 +92,7 @@ class StreamTests extends FlatSpec with Matchers {
   }
 
   "An unfolded Stream of incrementation" should "have the correct values" in {
-    val s1 = unfold(0)(_ + 1).take(3).toList
+    val s1 = unfold(0)(_ + 1).take(4).toList
     s1 shouldEqual List(0, 1, 2, 3)
   }
 
