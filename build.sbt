@@ -36,3 +36,5 @@ scalacOptions ++= Seq(
 
 scalaSource in Compile := baseDirectory.value / "src"
 scalaSource in Test    := baseDirectory.value / "test"
+
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
