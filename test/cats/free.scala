@@ -12,7 +12,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
   val Store = StoreOps[StoreOp]
 
   "A store" should "be able to put values" in {
-    Store.put("one", 1).foldMap(StoreId) should be (Option(()))
+    Store.put("one", 1).foldMap(StoreId) should be (())
   }
 
   it should "be able to get the same values back out" in {
