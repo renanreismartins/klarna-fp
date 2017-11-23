@@ -12,7 +12,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
   val Store = StoreOps[StoreOp]
 
   "A store" should "be able to put values" in {
-    Store.put("one", 1).foldMap(StoreId) should be (())
+    Store.put("one", 1).foldMap(StoreId()) should be (())
   }
 
   it should "be able to get the same values back out" in {
@@ -21,7 +21,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.get[Int]("one")
     } yield v
 
-    program.foldMap(StoreId) should be (Option(1))
+    program.foldMap(StoreId()) should be (Option(1))
   }
 
   it should "get None back when updating a non-existing value" in {
@@ -29,7 +29,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.update[Int]("one", 1)
     } yield v
 
-    program.foldMap(StoreId) should be (None)
+    program.foldMap(StoreId()) should be (None)
   }
 
   it should "get the old value back when updating an existing value" in {
@@ -38,7 +38,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.update[Int]("one", 2)
     } yield v
 
-    program.foldMap(StoreId) should be (Option(1))
+    program.foldMap(StoreId()) should be (Option(1))
   }
 
   it should "be able to delete an inserted value" in {
@@ -48,7 +48,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.get[Int]("one")
     } yield (b, v)
 
-    program.foldMap(StoreId) should be ((true, None))
+    program.foldMap(StoreId()) should be ((true, None))
   }
 
   it should "not be able to delete value that doesn't exist" in {
@@ -57,7 +57,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.get[Int]("one")
     } yield (b, v)
 
-    program.foldMap(StoreId) should be ((false, None))
+    program.foldMap(StoreId()) should be ((false, None))
   }
 
   "A StoreLog" should "create a message for each operation" in {
@@ -70,7 +70,7 @@ class FreeMonadsTests extends FlatSpec with Matchers {
       v <- Store.get[Int]("one")
     } yield (b, v)
 
-    program.foldMap(StoreLog(ps, StoreId)) should be ((true, None))
+    program.foldMap(StoreLog(ps, StoreId())) should be ((true, None))
     os.toString("utf-8").lines.toList.length should be (3)
   }
 }

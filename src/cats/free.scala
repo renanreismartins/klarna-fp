@@ -2,6 +2,7 @@ package klarna.fp
 
 import java.io.PrintStream
 
+import scala.collection.mutable
 import scala.reflect.runtime.universe._
 import scala.reflect.ClassTag
 
@@ -36,8 +37,8 @@ object FreeMonads {
     def put[V](k: String, v: V): Free[F, Unit] =
       ???
 
-    /** Gets the element of type V for key `k`. If element is of a different
-      * type, it should return `None`
+    /** Gets the element of type V for key `k`, you can assume that if the key
+      * exists - it will always be of type `V`
       */
     def get[V: ClassTag](k: String): Free[F, Option[V]] =
       ???
@@ -66,8 +67,13 @@ object FreeMonads {
     * Implement `StoreId`. Remember that `Id` is simply:
     *
     *   type Id[A] = A
+    *
+    * Please note that in a real-life scenario, we'd have type-safety for the
+    * map. But for now, you can cast `AnyRef => V`
     */
-  object StoreId extends (StoreOp ~> Id) {
+  case class StoreId() extends (StoreOp ~> Id) {
+    val map = mutable.Map[String, AnyRef]()
+
     def apply[A](a: StoreOp[A]): Id[A] = ???
   }
 
