@@ -7,7 +7,7 @@ object Functions {
     * can pass them around as values.
     *
     * Higher order functions (HOFs) are functions that take other functions as
-    * input.
+    * input - or return functions.
     *
     * In order to reason about this, we first have to talk about syntax in
     * Scala.
