@@ -14,6 +14,10 @@ class TestFunctions extends FlatSpec with Matchers {
     zipBy(List(1,3,5), List(2, 4, 6), (i: Int, j: Int) => (i, j)) shouldEqual List((1,2), (3,4), (5,6))
   }
 
+  it should "discard elements if lists arent of equal size" in {
+    zipBy(List(1,3,5), List(2, 4, 6, 7), (i: Int, j: Int) => (i, j)) shouldEqual List((1,2), (3,4), (5,6))
+  }
+
   "isSorted" should "return true for sorted list" in {
     isSorted(List.range(0, 10), (i0: Int, i1: Int) => i0 < i1) should be (true)
   }
@@ -29,4 +33,5 @@ class TestFunctions extends FlatSpec with Matchers {
   it should "return none if not found" in {
     findFirst(List(1,2,3), (i: Int) => i == 4) shouldEqual Some(1)
   }
+
 }
