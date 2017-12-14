@@ -23,7 +23,7 @@ class TestFunctions extends FlatSpec with Matchers {
   }
 
   it should "return false for non-sorted list" in {
-    isSorted(List(1, 3, 5, 0), (i0: Int, i1: Int) => i0 < i1) should be (true)
+    isSorted(List(1, 3, 5, 0), (i0: Int, i1: Int) => i0 < i1) should be (false)
   }
 
   "findFirst" should "return the first value" in {
