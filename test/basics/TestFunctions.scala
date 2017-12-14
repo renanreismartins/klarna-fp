@@ -31,7 +31,7 @@ class TestFunctions extends FlatSpec with Matchers {
   }
 
   it should "return none if not found" in {
-    findFirst(List(1,2,3), (i: Int) => i == 4) shouldEqual Some(1)
+    findFirst(List(1,2,3), (i: Int) => i == 4) shouldEqual None
   }
 
 }
