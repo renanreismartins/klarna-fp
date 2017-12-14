@@ -26,6 +26,10 @@ class TestFunctions extends FlatSpec with Matchers {
     isSorted(List(1, 3, 5, 0), (i0: Int, i1: Int) => i0 < i1) should be (false)
   }
 
+  it should "not allow 2-chunked comparison" in {
+    isSorted(List(1, 2, 1, 2), (i0: Int, i1: Int) => i0 < i1) should be (false)
+  }
+
   "findFirst" should "return the first value" in {
     findFirst(List(1,1,3), (i: Int) => i == 1) shouldEqual Some(1)
   }
