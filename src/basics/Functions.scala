@@ -46,7 +46,7 @@ object Functions {
     * }}}
     */
 
-  def applyTwice[A](f: A => A): A =
+  def applyTwice[A](f: A => A): A => A =
     ???
 
   def zipBy[A, B, C](xs: List[A], ys: List[B], f: (A, B) => C): List[C] =
