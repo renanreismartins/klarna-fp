@@ -136,7 +136,7 @@ class TestStructures extends FlatSpec {
 
   it should "be lazy in its evaluation" in {
     var wasLazy = true
-    cons3.foldRight(Eval.now {
+    cons3.foldRight(Eval.later {
       wasLazy = false
       1
     })((a, ev) => ev.map(_ * a))
