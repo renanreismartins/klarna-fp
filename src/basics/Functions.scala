@@ -46,18 +46,6 @@ object Functions {
     * }}}
     */
 
-  def applyTwice[A](f: A => A): A => A =
-    ???
-
-  def zipBy[A, B, C](xs: List[A], ys: List[B], f: (A, B) => C): List[C] =
-    ???
-
-  def isSorted[A](xs: List[A], ordered: (A, A) => Boolean): Boolean =
-    ???
-
-  def findFirst[A](xs: List[A], p: A => Boolean): Option[A] =
-    ???
-
   //The following functions are pretty cool - once they compile, they're
   //correct - I mean, just look at these types!
 
@@ -85,5 +73,28 @@ object Functions {
     * `A => C`
     */
   def compose[A, B, C](f: B => C, g: A => B): A => C =
+    ???
+
+  // These ones, however, require tests in order to verify their correctness:
+
+  /** Yields a function that gives back the result of applying `f` twice */
+  def applyTwice[A](f: A => A): A => A =
+    ???
+
+  /** Creates a `List[C]` by applying the function `f` to the nth element in
+   *  both lists.
+   *
+   *  If the lists are not of equal size, the returned list should be as long
+   *  as the shortest list
+   */
+  def zipBy[A, B, C](xs: List[A], ys: List[B], f: (A, B) => C): List[C] =
+    ???
+
+  /** Returns true if the list is sorted in accordance to `ordered` */
+  def isSorted[A](xs: List[A], ordered: (A, A) => Boolean): Boolean =
+    ???
+
+  /** Finds the first element in `xs` for which `p` returns true */
+  def findFirst[A](xs: List[A], p: A => Boolean): Option[A] =
     ???
 }
