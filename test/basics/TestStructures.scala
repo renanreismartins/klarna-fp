@@ -146,7 +146,7 @@ class TestStructures extends FlatSpec {
 
   "IList#sum" should "yield the correct answer" in {
     assertEqv[Id, Int](cons3.sum.value, 6)
-    assertEqv[Id, Int](cons3.appendEl(4).product.value, 10)
+    assertEqv[Id, Int](cons3.appendEl(4).sum.value, 10)
   }
 
   "IList#product" should "yield the correct answer" in {
