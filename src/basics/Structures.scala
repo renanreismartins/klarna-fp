@@ -1,7 +1,7 @@
 package klarna.fp
 package basics
 
-import cats.{Eq, Show}
+import cats.{Eval, Eq, Show}
 import cats.implicits._
 
 object Structures {
@@ -13,42 +13,46 @@ object Structures {
     /** Replaces the head of the list or returns a list of a single element if
      *  the list was empty
      */
-    def setHead(a: A): IList[A] =
-      self match {
-        case Cons(_, tlFun) => Cons(a, tlFun())
-        case Nil() => Cons(a)
-      }
+    final def setHead(a: => A): IList[A] =
+      ???
 
     /** Drop `n` elements and return the remaining list */
-    def drop(n: Int): IList[A] =
+    final def drop(n: Int): IList[A] =
       ???
 
     /** Drop elements while the predicate `p` yields true */
-    def dropWhile(p: A => Boolean): IList[A] =
+    final def dropWhile(p: A => Boolean): IList[A] =
       ???
 
     /** Lazily appends the list `other` after `self` */
-    def append(other: IList[A]): IList[A] =
+    final def append(other: => IList[A]): IList[A] =
+      ???
+
+    final def appendEl(a: => A): IList[A] = append(Cons(a))
+
+    /** Applies the function to each element of the list */
+    final def map[B](f: A => B): IList[B] =
       ???
 
     /** Applies the function to each element of the list */
-    def map[B](f: A => B): IList[B] =
+    final def flatMap[B](f: A => IList[B]): IList[B] =
       ???
 
-    /** Applies the function to each element of the list */
-    def flatMap[B](f: A => IList[B]): IList[B] =
-      ???
-
-    /** `foldRight` folds a list into a single value `B` */
-    def foldRight[B](z: B)(f: (A, B) => B): B =
+    /** `foldRight` folds a list into a single value `B`
+     *
+     *  @note - this is achieved using `Eval` from cats. Eval represents an
+     *  evaluation of something - to be done now by calling `.value` or later
+     *  by mapping and passing on.
+     */
+    final def foldRight[B](z: Eval[B])(f: (A, Eval[B]) => Eval[B]): Eval[B] =
       ???
 
     /** Implement `sum` in terms of `foldRight` */
-    def sum(implicit N: Numeric[A]): A =
+    final def sum(implicit N: Numeric[A]): Eval[A] =
       ???
 
     /** Implement `product` in terms of `foldRight` */
-    def product(implicit N: Numeric[A]): A =
+    final def product(implicit N: Numeric[A]): Eval[A] =
       ???
   }
 
@@ -78,7 +82,7 @@ object Structures {
 
   object IList {
     implicit def eq[A: Eq] = new cats.Eq[IList[A]] {
-      def eqv(a1: IList[A], a2: IList[A]): Boolean = (a1, a2) match {
+      def eqv(xs: IList[A], ys: IList[A]): Boolean = (xs, ys) match {
         case (Nil(),         Nil()        ) => true
         case (_,             Nil()        ) => false
         case (Nil(),         _            ) => false
