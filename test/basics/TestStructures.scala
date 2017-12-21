@@ -129,6 +129,11 @@ class TestStructures extends FlatSpec {
     assertEqv[Id, Int](i, 12)
   }
 
+  it should "fold in the correct direction" in {
+    val xs = cons3.foldRight(Eval.now(Nil[Int](): IList[Int]))((a, ev) => ev.map(xs => Cons(a, xs))).value
+    assertEqv(xs, cons3)
+  }
+
   it should "be lazy in its evaluation" in {
     var wasLazy = true
     cons3.foldRight(Eval.now {
