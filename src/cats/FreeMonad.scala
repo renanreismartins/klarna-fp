@@ -9,7 +9,7 @@ import scala.reflect.ClassTag
 import cats.{~>, Id, InjectK}
 import cats.free.Free
 
-object FreeMonads {
+object FreeMonad {
 
   // A Free monad is essentially a structure that describes a program. It is a
   // sequence of data which can later be interpreted by natural transformations.

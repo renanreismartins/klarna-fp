@@ -3,7 +3,7 @@ package klarna.fp
 import fs2.Stream
 import fs2.Pure
 
-object Streams {
+object Streaming {
 
   // Building streams
   // ================

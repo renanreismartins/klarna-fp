@@ -3,10 +3,10 @@ package  klarna.fp
 import org.scalatest._
 
 import fs2.Stream
-import Streams._
 
 
-class StreamTests extends FlatSpec with Matchers {
+class StreamingSpec extends FlatSpec with Matchers {
+  import Streaming._
 
   "A stream of a single element" should "only contain one element" in {
     singleElement(1).toList shouldEqual List(1)

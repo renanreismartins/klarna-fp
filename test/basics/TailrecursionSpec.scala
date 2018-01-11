@@ -3,7 +3,7 @@ package basics
 
 import org.scalatest._
 
-class TestTailRecursion extends FlatSpec with Matchers {
+class TailRecursionSpec extends FlatSpec with Matchers {
 
   import Tailrecursion._
 

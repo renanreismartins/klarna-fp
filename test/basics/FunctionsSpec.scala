@@ -3,7 +3,7 @@ package basics
 
 import org.scalatest._
 
-class TestFunctions extends FlatSpec with Matchers {
+class FunctionsSpec extends FlatSpec with Matchers {
   import Functions._
 
   "applyTwice" should "return the correct value for _ * 2" in {
