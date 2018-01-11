@@ -69,8 +69,8 @@ object Random {
 
   type Rand[A] = State[Long, A]
 
-  val nextInt: Rand[Int] = ???
+  lazy val nextInt: Rand[Int] = ???
 
   // Implement in terms of `nextLong`:
-  val nextBoolean: Rand[Boolean] = ???
+  lazy val nextBoolean: Rand[Boolean] = ???
 }
