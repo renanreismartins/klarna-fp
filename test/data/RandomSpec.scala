@@ -59,4 +59,15 @@ class RandomSpec extends FlatSpec with Matchers {
     tuple should be ((4232237, true))
   }
 
+  "Counter" should "give subsequent seed on each call" in {
+    val countThree = for {
+      _ <- counter
+      _ <- counter
+      x <- counter
+    } yield x
+
+    val (seed, _) = countThree.run(0).value
+    seed shouldEqual 3
+  }
+
 }
