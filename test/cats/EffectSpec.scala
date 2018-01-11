@@ -1,19 +1,9 @@
 package klarna.fp
 
 import org.scalatest._
-import fs2.Task
+import cats.effect.IO
 
-class TasksTests extends FlatSpec with Matchers { self =>
-  "`immediately`" should "evaluate side effects without being called" in {
-    var gotCalled = false
-    lazy val x = {
-      gotCalled = true
-      1
-    }
-
-    Tasks.immediately(x)
-    assert(gotCalled, "side effects were not evaluated")
-  }
+class EffectSpec extends FlatSpec with Matchers { self =>
 
   "`later`" should "not evaluate side effects without being called" in {
     var gotCalled = false
@@ -22,7 +12,7 @@ class TasksTests extends FlatSpec with Matchers { self =>
       1
     }
 
-    Tasks.later(x)
+    Effect.later(x)
     assert(!gotCalled, "side effects were evaluated")
   }
 
@@ -33,91 +23,91 @@ class TasksTests extends FlatSpec with Matchers { self =>
       1
     }
 
-    Tasks.later(x).unsafeRun()
+    Effect.later(x).unsafeRunSync()
     assert(gotCalled, "side effects were not evaluated")
   }
 
-  "`safeTask`" should "catch exceptions" in {
-    Tasks.safeTask(
-      Tasks.later(throw new Exception)).unsafeRun()
+  "`safeIO`" should "catch exceptions" in {
+    Effect.safeIO(
+      Effect.later(throw new Exception)).unsafeRunSync()
   }
 
   "`recover`" should "catch exceptions" in {
     val t =
-      Tasks.recover(Tasks.later[Int](throw new Exception))(Tasks.later(1))
+      Effect.recover(Effect.later[Int](throw new Exception))(Effect.later(1))
 
-    t.unsafeRun() should be (1)
+    t.unsafeRunSync() should be (1)
   }
 
   it should "not evaluate the first or second task" in {
     var didRun = false
-    val t1 = Tasks.later[Int](throw new Exception)
-    val t2 = Tasks.later {
+    val t1 = Effect.later[Int](throw new Exception)
+    val t2 = Effect.later {
       didRun = true
       1
     }
 
-    Tasks.recover(t1)(t2)
+    Effect.recover(t1)(t2)
     assert(!didRun, "did evaluate second task in `recover`")
   }
 
   "`ensure`" should "not evaluate task without it being run" in {
-    Tasks.ensure(Tasks.later(1))(_ != 1, new Exception)
+    Effect.ensure(Effect.later(1))(_ != 1, new Exception)
   }
 
   it should "should throw when the predicate is true" in {
     assertThrows[Exception] {
-      Tasks.ensure(Tasks.later(1))(_ != 1, new Exception).unsafeRun()
+      Effect.ensure(Effect.later(1))(_ != 1, new Exception).unsafeRunSync()
     }
   }
 
   it should "should not throw when the predicate is false" in {
-    Tasks.ensure(Tasks.later(1))(_ == 1, new Exception).unsafeRun()
+    Effect.ensure(Effect.later(1))(_ == 1, new Exception).unsafeRunSync()
   }
 
-  "`product`" should "not execute the tasks first" in {
+  "`product`" should "not execute the Effect first" in {
     var didRun = false
-    val t1 = Tasks.later {
+    val t1 = Effect.later {
       didRun = true
       1
     }
 
-    val t2 = Tasks.later {
+    val t2 = Effect.later {
       didRun = true
       "two"
     }
 
-    Tasks.product(t1, t2)
-    assert(!didRun, "product executed tasks before producing tuple")
+    Effect.product(t1, t2)
+    assert(!didRun, "product executed Effect before producing tuple")
   }
 
   "`traverse`" should "not execute immediately" in {
-    Tasks.flatten {
+    Effect.flatten {
       List(
-        Tasks.later(1),
-        Tasks.later(throw new Exception),
+        Effect.later(1),
+        Effect.later(throw new Exception),
       )
     }
   }
 
   it should "not catch exceptions when run" in {
     assertThrows[Exception] {
-      Tasks.flatten {
+      Effect.flatten {
         List(
-          Tasks.later(1),
-          Tasks.later(throw new Exception),
+          Effect.later(1),
+          Effect.later(throw new Exception),
         )
       }
-      .unsafeRun()
+      .unsafeRunSync()
     }
   }
 
-  it should "evaluate tasks in parallel" in {
+  it should "evaluate Effect in parallel" in {
     var t1Done = false
     var t1Started = false
     var t2Started = false
 
-    val t1 = Tasks.later {
+    val t1 = Effect.later {
       self.synchronized {
         t1Started = true
         notifyAll()
@@ -127,7 +117,7 @@ class TasksTests extends FlatSpec with Matchers { self =>
         "threads didn't execute out of order, second thread not started")
       t1Done = true
     }
-    val t2 = Tasks.later {
+    val t2 = Effect.later {
       self.synchronized {
         if (!t1Started) self.wait(10000)
         assert(t1Started,
@@ -138,18 +128,18 @@ class TasksTests extends FlatSpec with Matchers { self =>
       assert(t1Done, "threads didn't execute out of order")
     }
 
-    Tasks.flatten(List(t1, t2)).unsafeRun()
+    Effect.flatten(List(t1, t2)).unsafeRunSync()
   }
 
   "`traverse`" should "produce the correct result" in {
-    val xs = List(Tasks.later(1), Tasks.later(2), Tasks.later(3))
+    val xs = List(Effect.later(1), Effect.later(2), Effect.later(3))
 
-    Tasks.traverse(xs)(a => Tasks.later(a + 1))
-      .unsafeRun() shouldEqual List(2, 3, 4)
+    Effect.traverse(xs)(a => Effect.later(a + 1))
+      .unsafeRunSync() shouldEqual List(2, 3, 4)
   }
 
-  it should "not evaluate tasks before being run" in {
-    val xs = List(Tasks.later(1), Tasks.later(throw new Exception), Tasks.later(3))
-    Tasks.traverse(xs)(a => Tasks.later(a + 1))
+  it should "not evaluate Effect before being run" in {
+    val xs = List(Effect.later(1), Effect.later(throw new Exception), Effect.later(3))
+    Effect.traverse(xs)(a => Effect.later(a + 1))
   }
 }

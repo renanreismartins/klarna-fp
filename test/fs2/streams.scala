@@ -97,7 +97,7 @@ class StreamTests extends FlatSpec with Matchers {
   }
 
   "A flattened stream" should "be able to handle an empty list" in {
-    flatten(Stream(List())).toList shouldEqual List()
+    flatten(Stream(List[Int]())).toList shouldEqual List[Int]()
   }
 
   it should "correctly flatten a stream of a single list" in {

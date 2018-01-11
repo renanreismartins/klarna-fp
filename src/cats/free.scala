@@ -6,8 +6,8 @@ import scala.collection.mutable
 import scala.reflect.runtime.universe._
 import scala.reflect.ClassTag
 
-import cats.{~>, Id}
-import cats.free.{ Free, Inject }
+import cats.{~>, Id, InjectK}
+import cats.free.Free
 
 object FreeMonads {
 
@@ -33,7 +33,7 @@ object FreeMonads {
   /** Define the operations needed for the store as subclasses of `StoreOp` */
   sealed trait StoreOp[A]
 
-  class StoreOps[F[_]](implicit I: Inject[StoreOp, F]) {
+  class StoreOps[F[_]](implicit I: InjectK[StoreOp, F]) {
     def put[V](k: String, v: V): Free[F, Unit] =
       ???
 
@@ -56,7 +56,7 @@ object FreeMonads {
   }
 
   object StoreOps {
-    def apply[F[_]](implicit I: Inject[StoreOp, F]) = new StoreOps[F]
+    def apply[F[_]](implicit I: InjectK[StoreOp, F]) = new StoreOps[F]
   }
 
   /** To be able to evaluate a StoreOp program, we need an interpreter. This
