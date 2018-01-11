@@ -4,7 +4,7 @@ import org.scalatest._
 import cats.data.NonEmptyList
 import scala.util.Try
 
-class NatTests extends FlatSpec with Matchers {
+class NatSpec extends FlatSpec with Matchers {
   import Nat._
 
   "Natural transformation `Try ~> Option`" should "yield the correct result on Success" in {

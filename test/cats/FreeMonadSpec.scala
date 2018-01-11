@@ -5,9 +5,8 @@ import java.io.{ ByteArrayOutputStream, PrintStream }
 import org.scalatest._
 import cats.implicits._
 
-import FreeMonads._
-
-class FreeMonadsTests extends FlatSpec with Matchers {
+class FreeMonadSpec extends FlatSpec with Matchers {
+  import FreeMonad._
 
   val Store = StoreOps[StoreOp]
 

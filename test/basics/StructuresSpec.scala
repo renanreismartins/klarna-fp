@@ -6,7 +6,7 @@ import org.scalatest.FlatSpec
 import cats.{Id, Eval, Eq, Show}
 import cats.implicits._
 
-class TestStructures extends FlatSpec {
+class StructuresSpec extends FlatSpec {
   import Structures._
 
   val cons3 = Cons(1, Cons(2, Cons(3)))

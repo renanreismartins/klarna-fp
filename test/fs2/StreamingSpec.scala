@@ -3,10 +3,10 @@ package  klarna.fp
 import org.scalatest._
 
 import fs2.Stream
-import Streams._
 
 
-class StreamTests extends FlatSpec with Matchers {
+class StreamingSpec extends FlatSpec with Matchers {
+  import Streaming._
 
   "A stream of a single element" should "only contain one element" in {
     singleElement(1).toList shouldEqual List(1)
@@ -97,7 +97,7 @@ class StreamTests extends FlatSpec with Matchers {
   }
 
   "A flattened stream" should "be able to handle an empty list" in {
-    flatten(Stream(List())).toList shouldEqual List()
+    flatten(Stream(List[Int]())).toList shouldEqual List[Int]()
   }
 
   it should "correctly flatten a stream of a single list" in {
