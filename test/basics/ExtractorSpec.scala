@@ -25,7 +25,7 @@ class ExtractorSpec extends FlatSpec with Matchers {
   }
 
   it should "not work for a birthday in the future" in {
-    "21180101" match {
+    "2118-01-01" match {
       case Birthday.valid(bd) =>
         fail("Shouldn't have been a valid birthday for: 21180101")
       case _ =>
@@ -52,7 +52,7 @@ class ExtractorSpec extends FlatSpec with Matchers {
   }
 
   it should "work for a birthday in the future" in {
-    "21180101" match {
+    "2118-01-01" match {
       case Birthday.invalid(bd) =>
         // success!
       case _ =>
