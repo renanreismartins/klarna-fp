@@ -69,11 +69,12 @@ object Random {
 
   type Rand[A] = State[Long, A]
 
-  lazy val nextInt: Rand[Int] = ???
+  def nextInt: Rand[Int] = ???
 
   // Implement in terms of `nextLong`:
-  lazy val nextBoolean: Rand[Boolean] = ???
+  def nextBoolean: Rand[Boolean] = ???
 
   // 3) Create a counter and tests for it using the state monad:
-  // val counter: State[Int, Unit] = ???
+
+  def counter: State[Int, Unit] = ???
 }

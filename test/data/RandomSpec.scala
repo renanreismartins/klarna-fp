@@ -66,8 +66,8 @@ class RandomSpec extends FlatSpec with Matchers {
       x <- counter
     } yield x
 
-    val (seed, _) = countThree.run(0).value
-    seed shouldEqual 3
+    val (state, _) = countThree.run(0).value
+    state shouldEqual 3
   }
 
 }
