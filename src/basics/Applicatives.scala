@@ -20,10 +20,10 @@ object Applicatives {
   // 2) Implement the right hand of Either as Applicative
   implicit def EitherApplicative[L] = new Applicative[Either[L, ?]] {
     def ap[A, B](ff: Either[L, A => B])(fa: Either[L, A]): Either[L, B] =
-      ff.flatMap { f => fa.map(f) }
+      ???
 
     def pure[A](a: A): Either[L, A] =
-      Right(a)
+      ???
   }
 
   // 3) Implement `cartesian` product in terms of Applicative:
