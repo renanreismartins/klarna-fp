@@ -39,7 +39,7 @@ class KleisliTriplesSpec extends FlatSpec with Matchers {
 
   "foldElements" should "have the correct sum for non-empty list" in {
     val xs = List(1, 2, 3)
-    foldElements[Id].run(xs) should be (Some(6))
+    foldElements[Id].run(xs) should be (Some(Sum(6)))
   }
 
   it should "return None on empty list" in {
