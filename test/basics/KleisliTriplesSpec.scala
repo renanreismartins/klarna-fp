@@ -55,7 +55,7 @@ class KleisliTriplesSpec extends FlatSpec with Matchers {
   }
 
   "sumPipeline" should "return the correct response" in {
-    sumPipeline[Id].run(Request("GET", "/doublesum", "1, 2, 3")) should be (Some(Response(200, "6")))
+    sumPipeline[Id].run(Request("GET", "/doublesum", "1, 2, 3")) should be (Some(Response(200, "12")))
   }
 
   "SumEndpoint" should "respond correctly on GET /doublesum" in {
@@ -63,7 +63,7 @@ class KleisliTriplesSpec extends FlatSpec with Matchers {
       s1 <- SumEndpoint(Request("GET", "/doublesum", "1, 2, 3"))
       s2 <- SumEndpoint(Request("GET", "/doublesum", ""))
     } yield {
-      s1 should be (Some(Response(200, "6")))
+      s1 should be (Some(Response(200, "12")))
       s2 should be (Some(Response(400, badResponseBody)))
     }).unsafeRunSync()
   }
