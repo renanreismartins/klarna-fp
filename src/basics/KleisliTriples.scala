@@ -91,7 +91,7 @@ object KleisliTriples {
     /** This helper function allows you to create a `Service` using the following syntax:
      *  {{{
      *  Service[F] {
-     *    case Request(_, _, _) => Some(Response(...)).pure[F]
+     *    case Request(_, _, _) => Response(...).pure[F]
      *  }
      *  }}}
      */
