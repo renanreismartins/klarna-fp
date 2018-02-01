@@ -71,8 +71,8 @@ object KleisliTriples {
    * If we change our `f` and `g` to Kleislis, we can now compose them:
    *
    * {{{
-   * val f: Kleisli[F, A, B] = Kleisli(a => Option(a.toB))
-   * val g: Kleisli[F, B, C] = Kleisli(b => Option(b.toC))
+   * val f: Kleisli[Option, A, B] = Kleisli(a => Option(a.toB))
+   * val g: Kleisli[Option, B, C] = Kleisli(b => Option(b.toC))
    *
    * f andThen g // compiles! 😊
    * }}}
@@ -91,7 +91,7 @@ object KleisliTriples {
     /** This helper function allows you to create a `Service` using the following syntax:
      *  {{{
      *  Service[F] {
-     *    case Request(_, _, _) => Some(Response(...)).pure[F]
+     *    case Request(_, _, _) => Response(...).pure[F]
      *  }
      *  }}}
      */
