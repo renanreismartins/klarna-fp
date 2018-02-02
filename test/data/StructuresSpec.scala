@@ -1,5 +1,5 @@
 package klarna.fp
-package basics
+package data
 
 import org.scalatest.FlatSpec
 

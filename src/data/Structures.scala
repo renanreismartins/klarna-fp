@@ -1,5 +1,5 @@
 package klarna.fp
-package basics
+package data
 
 import cats.{Eval, Eq, Show}
 import cats.implicits._
