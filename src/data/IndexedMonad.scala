@@ -56,8 +56,8 @@ object IndexedMonad {
   def open(jam: Boolean): IndexedStateT[Id, Open, Shut, Unit] =
     ???
 
-  /** Open a shut door, then close it, then open it again! (No jamming) */
-  def openShutOpen: IndexedStateT[Id, Shut, Open, Unit] =
+  /** Shuts an open door, then open it, then shut it again! (No jamming) */
+  def shutOpenShut: IndexedStateT[Id, Shut, Open, Unit] =
     ???
 
   // 2) Add two states: `JammedOpen` and `JammedShut`

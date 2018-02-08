@@ -24,8 +24,8 @@ class IndexedMonadSpec extends FlatSpec with Matchers {
   //  open(true).run(Open(0))._1.times should be (0)
   //}
 
-  "openShutOpen" should "increment value by 3 for a single call" in {
-    openShutOpen.run(Shut(0))._1.times should be (3)
+  "shutOpenShut" should "increment value by 3 for a single call" in {
+    shutOpenShut.run(Shut(0))._1.times should be (3)
   }
 
   "randomly opening and closing" should "yield a random count of times operated" in {
