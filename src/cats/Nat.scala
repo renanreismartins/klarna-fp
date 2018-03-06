@@ -22,9 +22,23 @@ object Nat {
   //
   // Note:
   //   `~>` is actually a type alias for `FunctionK`. The `K` at the end means
-  //   that the type operates on the _kind-level_ instead of the type-level.
+  //   that the type operates on higher-kinded types.
   //
-  //   Example: for `Option[Int]`, `Option` is the kind.
+  //   A kind describes the "arity" of a type. A simple type such as String has kind `*`
+  //   whereas a type constructor such as Option as kind `* -> *`. Either takes 2 type parameters
+  //   and therefore has kind `* -> * -> *`
+  //
+  //   This kind system allows the type checker to enforce kindness:
+  //   Given:
+  //
+  //      def hkt[F[_]] = _ // F must have kind `* -> *`
+  //
+  //   The following should not compile:
+  //
+  //      hkt[Either]    // Either has incompatible kind `* -> * -> *`
+  //      hkt[List[Int]] // List[Int] has incompatible kind `*`
+  //
+  //   Therefore, a higher-kinded type is simply a type whose kind is greater than `*`.
 
 
   /** Implements the natural transformation between `Try` and `Option` */
