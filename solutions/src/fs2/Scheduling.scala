@@ -10,6 +10,8 @@ object Scheduling {
 
   def retry(eval: Int => IO[Int], noAttempts: Int, delay: FiniteDuration): Pipe[IO, Int, Either[Throwable,Int]] =
     source => {
+      import ExecutionContext.Implicits.global
+
       // let's get a managed scheduler first
       Scheduler[IO](corePoolSize = 1).flatMap { sched =>
 
@@ -24,7 +26,7 @@ object Scheduling {
                 val print = Stream.eval(IO {
                   println(s"Failed to evaluate (${e.getMessage}), trying again in $delay. $remaining")
                 })
-                val sleep = sched.sleep[IO](delay)(Async[IO], ExecutionContext.global)
+                val sleep = sched.sleep[IO](delay)
 
                 // `drain` is needed as we don't want to emit `()`. The type-checker is
                 // actually helping here, as combining a `Stream[IO, Unit]` with a
