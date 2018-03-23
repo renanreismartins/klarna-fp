@@ -6,9 +6,12 @@ import cats.effect.IO
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.concurrent.duration.{Duration, DurationInt, DurationLong}
+import scala.concurrent.ExecutionContext
 
 class SchedulingSpec extends FlatSpec with Matchers {
   import Scheduling._
+
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
   "Retry" should "simply apply a function if no failures are detected" in {
     def eval(i: Int): IO[Int] = IO { i + 1 }

@@ -31,8 +31,8 @@ object Scheduling {
     *
     *         => return Stream(Right(1), Left("some failure"))
     */
-  def retry(eval: Int => IO[Int],
-            noAttempts: Int,
-            delay: FiniteDuration): Pipe[IO, Int, Either[Throwable,Int]] =
+  def retry(eval: Int => IO[Int], noAttempts: Int, delay: FiniteDuration)(
+    implicit ec: ExecutionContext
+  ): Pipe[IO, Int, Either[Throwable,Int]] =
     ???
 }

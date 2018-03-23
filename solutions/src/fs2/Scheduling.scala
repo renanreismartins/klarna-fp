@@ -8,10 +8,10 @@ import scala.concurrent.duration.FiniteDuration
 
 object Scheduling {
 
-  def retry(eval: Int => IO[Int], noAttempts: Int, delay: FiniteDuration): Pipe[IO, Int, Either[Throwable,Int]] =
+  def retry(eval: Int => IO[Int], noAttempts: Int, delay: FiniteDuration)(
+    implicit ec: ExecutionContext
+  ): Pipe[IO, Int, Either[Throwable,Int]] =
     source => {
-      import ExecutionContext.Implicits.global
-
       // let's get a managed scheduler first
       Scheduler[IO](corePoolSize = 1).flatMap { sched =>
 
