@@ -1,7 +1,7 @@
 package klarna.fp
 
 import cats.effect.{Async, IO}
-import fs2.{Scheduler, Stream}
+import fs2.{Scheduler, Stream, Pipe}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration.FiniteDuration
