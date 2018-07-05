@@ -17,7 +17,8 @@ class ApplicativesSpec extends CatsSuite {
     // applicative, it should return the original value:
     //
     // Implement the test here!
-    fail("implement the identity law plz!")
+
+    //assert(ListApplicative.ap(List(identity)(List(1)) == List(1))
   }
 
   test("List Applicative - homomorphism") {
@@ -26,7 +27,9 @@ class ApplicativesSpec extends CatsSuite {
     // way and then using pure on the result. In a sense, that means pure
     // preserves function application.
 
-    fail("implement the homomorphism law plz!")
+    val f: Int => Int = x => x * 2
+
+    assert(ListApplicative.ap(ListApplicative.pure(f))(List(1)) == ListApplicative.pure(f(1)))
   }
 
   test("List Applicative - interchange") {

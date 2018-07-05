@@ -11,10 +11,11 @@ object Applicatives {
   // 1) Implement an applicative instance for list
   implicit val ListApplicative = new Applicative[List] {
     def ap[A, B](ff: List[A => B])(fa: List[A]): List[B] =
-      ???
+      ff.flatMap(f => fa.map(a => f(a)))
+
 
     def pure[A](a: A): List[A] =
-      ???
+      List(a)
   }
 
   // 2) Implement the right hand of Either as Applicative
@@ -31,6 +32,6 @@ object Applicatives {
     ???
 
   // 4) Implement validate in terms of applicative:
-  def combineWith[F[_]: Applicative, A, B](a1: F[A], a2: F[A], p: (A, A) => B): F[B] =
+  def combineWith[F[_] : Applicative, A, B](a1: F[A], a2: F[A], p: (A, A) => B): F[B] =
     ???
 }

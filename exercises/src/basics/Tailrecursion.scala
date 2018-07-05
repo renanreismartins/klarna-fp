@@ -50,10 +50,10 @@ object Tailrecursion {
     *       ultimate deciding factor :)
     */
   def factorial(n: Int): Int = {
-    //@tailrec
-    def loop(n: Int, acc: Int): Int = ???
+    @tailrec
+    def loop(n: Int, acc: Int): Int = if (n <= 1) acc else loop(n - 1, acc * n)
 
-    ???
+    loop(n, 1)
   }
 
   /** OPTIONAL - this one is a bit tricky to get tail-recursive

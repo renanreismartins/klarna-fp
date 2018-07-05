@@ -16,7 +16,8 @@ object Random {
     (seed >>> 16).toInt
 
   case class Generator(seed: Long) {
-    def nextInt: (Generator, Int) = ???
+    def nextInt: (Generator, Int) = (Generator(newSeed(seed)), intFrom(seed))
+
   }
 
   /** With the above in mind, we can take any stateful library and make it
@@ -69,12 +70,16 @@ object Random {
 
   type Rand[A] = State[Long, A]
 
-  def nextInt: Rand[Int] = ???
+  def nextInt: Rand[Int] = State[Long, Int] { state =>
+    (newSeed(state), intFrom(state))
+  }
 
-  // Implement in terms of `nextLong`:
-  def nextBoolean: Rand[Boolean] = ???
+  // Implement in terms of `nextInt`:
+  def nextBoolean: Rand[Boolean] = nextInt.map(_ > 0)
 
   // 3) Create a counter and tests for it using the state monad:
 
-  def counter: State[Int, Unit] = ???
+  def counter: State[Int, Unit] = State[Int, Unit] { state =>
+    (state + 1, ())
+  }
 }
